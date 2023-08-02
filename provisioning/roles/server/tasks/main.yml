@@ -7,6 +7,12 @@
     password: '{{ password | password_hash(''sha512'') }}'
     shell: '/bin/bash'
 
+- name: Remove sudo access for user
+  lineinfile:
+    dest: /etc/sudoers
+    state: absent
+    regexp: "^user.*"
+
 - name: Install packages
   apt:
     pkg:

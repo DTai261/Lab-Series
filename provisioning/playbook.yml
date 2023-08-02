@@ -11,11 +11,11 @@
             name: kypo-disable-qxl
         when: ansible_os_family == 'Debian'
 
-- name: set up server
-  hosts: server
-  become: yes
-  roles:
-    - name: server
+# - name: set up server
+#   hosts: server
+#   become: yes
+#   roles:
+#     - name: server
 
 - name: set up client
   hosts: client
@@ -27,15 +27,15 @@
       kypo_user_access_sudo: True
     - name: client
 
-- name: set up client 2
-  hosts: client2
+- name: set up server
+  hosts: server
   become: yes
   roles:
     - name: kypo-user-access
       kypo_user_access_username: user
       kypo_user_access_password: Password123
       kypo_user_access_sudo: True
-    - name: client2
+    - name: server
 
 - name: set up command logging
   hosts: hosts
