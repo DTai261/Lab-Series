@@ -56,19 +56,19 @@
 # Create necessary files
 - name: Create xvnc.socket file
   copy:
-    src: xvnc.socket
+    src: GUI/xvnc.socket
     dest: /etc/systemd/system/xvnc.socket
     mode: "0755"
 
 - name: Create xvnc@.service file
   copy:
-    src: xvnc@.service
+    src: GUI/xvnc@.service
     dest: /etc/systemd/system/xvnc@.service
     mode: "0755"
 
 - name: Create lightdm.conf file
   copy:
-    src: lightdm.conf
+    src: GUI/lightdm.conf
     dest: /etc/lightdm/lightdm.conf
     mode: "0755"
 
@@ -103,7 +103,7 @@
 # Create xstartup
 - name: Overwrite file xstartup in .vnc
   copy:
-    src: xstartup
+    src: GUI/xstartup
     dest: ~/.vnc/xstartup
     force: yes
 
@@ -122,7 +122,7 @@
 ### cronjob
 - name: Create script file
   copy:
-    src: check_vnc.sh
+    src: GUI/check_vnc.sh
     dest: /opt/check_vnc.sh
     mode: "0755"
 
@@ -135,7 +135,7 @@
 
 - name: Create script file
   copy:
-    src: basic_auth.sh
+    src: Basic_authen/basic_auth.sh
     dest: /opt/basic_auth.sh
     mode: "0755"
 
