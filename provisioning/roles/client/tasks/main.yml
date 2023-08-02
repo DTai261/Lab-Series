@@ -10,156 +10,128 @@
   apt:
     update_cache: yes
 
-- name: Install firefox
+- name: Install packages
   become: true
   apt:
-    name: firefox
+    name: 
+      - firefox
+      - wireshark
     state: present
 
-# Install wireshark and allow non-superusers capture packets
-# - name: Set debconf answer for non-superusers
-#   debconf:
-#     name: wireshark-common
-#     question: wireshark-common/install-setuid
-#     value: true
-#     vtype: boolean
+#############################################Config GUI#############################################
+- name: Set debconf value for lightdm
+  debconf:
+    name: lightdm
+    question: lightdm/display-manager
+    value: lightdm
+    vtype: string
 
-# - name: Install Wireshark package
-#   apt:
-#     name: wireshark
-#     state: present
+- name: Install lightdm
+  apt:
+    name: 
+      - lightdm
+    update_cache: yes
 
-# - name: Set debconf value for lightdm
-#   debconf:
-#     name: lightdm
-#     question: Default display manager
-#     value: lightdm
-#     vtype: string
+- name: Install xfce4 and xfce4-goodies
+  apt:
+    name: 
+      - xfce4
+      - xfce4-goodies
+    update_cache: yes
 
-# - name: Install lightdm
-#   apt:
-#     name: 
-#       - lightdm
-#     update_cache: yes
+- name: Install tigervnc-standalone-server and tigervnc-xorg-extension and tigervnc-viewer
+  become: true
+  apt:
+    name: 
+      - tigervnc-standalone-server
+      - tigervnc-xorg-extension
+      - tigervnc-viewer
+    state: present
 
-#############################################################
-# - name: Set debconf value for lightdm
-#   debconf:
-#     name: lightdm
-#     question: lightdm/display-manager
-#     value: lightdm
-#     vtype: string
+- name: Create /var/log/apt directory
+  file:
+    path: /var/log/apt
+    state: directory
+    
+# Create necessary files
+- name: Create xvnc.socket file
+  copy:
+    src: xvnc.socket
+    dest: /etc/systemd/system/xvnc.socket
+    mode: "0755"
 
-# - name: Install xfce4 and xfce4-goodies
-#   apt:
-#     name: 
-#       - xfce4
-#       - xfce4-goodies
-#     update_cache: yes
+- name: Create xvnc@.service file
+  copy:
+    src: xvnc@.service
+    dest: /etc/systemd/system/xvnc@.service
+    mode: "0755"
 
-# - name: Reboot the machine
-#   reboot:
-#     reboot_timeout: 480
-#     pre_reboot_delay: 0
-#     post_reboot_delay: 30
-#   become: true
-#   become_method: sudo
-#   async: 0
-#   poll: 0
-#   register: reboot_result
-#   ignore_errors: true
+- name: Create lightdm.conf file
+  copy:
+    src: lightdm.conf
+    dest: /etc/lightdm/lightdm.conf
+    mode: "0755"
 
-# - name: Wait for the machine to come back online
-#   wait_for_connection:
-#     delay: 10
-#     timeout: 480
+# Start the VNC socket script and set it to start automatically on boot
+- name: Reload systemd daemon
+  systemd:
+    daemon_reload: yes
 
+- name: Enable xvnc.socket
+  systemd:
+    name: xvnc.socket
+    enabled: yes
 
-# # - name: Install xfce4 and xfce4-goodies
-# #   become: true
-# #   apt:
-# #     name: "{{ item }}"
-# #     state: present
-# #   with_items:
-# #     - xfce4
-# #     - xfce4-goodies
+- name: Start xvnc.socket
+  systemd:
+    name: xvnc.socket
+    state: started
 
-# # - name: Choose lightdm as the default display manager
-# #   expect:
-# #     command: dpkg-reconfigure lightdm
-# #     responses:
-# #       'Default display manager:': lightdm
+#Run VNCserver
+- name: Move to home directory
+  shell: cd ~
 
-# - name: Install tigervnc-standalone-server and tigervnc-xorg-extension
-#   become: true
-#   apt:
-#     name: 
-#       - tigervnc-standalone-server
-#       - tigervnc-xorg-extension
-#     state: present
+- name: Run vncserver and configure password
+  expect:
+    command: vncserver
+    responses:
+      'Password:': password
+      'Verify:': password
+      'Would you like to enter a view-only password (y/n)?': n
+  ignore_errors: True
 
-# - name: Run vncserver and configure password
-#   expect:
-#     command: vncserver
-#     responses:
-#       'Password:': password
-#       'Verify:': password
-#       'Would you like to enter a view-only password (y/n)?': n
-#     ignore_errors: True
+# Create xstartup
+- name: Overwrite file xstartup in .vnc
+  copy:
+    src: xstartup
+    dest: ~/.vnc/xstartup
+    force: yes
 
-# - name: Kill VNC server process 
-#     become: true
-#     shell: vncserver -kill :1
+- name: Set executable permission for xstartup
+  file:
+    path: ~/.vnc/xstartup
+    mode: '+x'
 
-# - name: Overwrite a file .vnc
-#   copy:
-#     src: xstartup
-#     dest: ~/.vnc/xstartup
-#     force: yes
+- name: Kill VNC server process
+  become: true
+  shell: vncserver -kill :1
 
-# - name: Set executable permission for xstartup
-#   file:
-#     path: ~/.vnc/xstartup
-#     mode: '+x'
+- name: Run vncserver again
+  command: vncserver :1
 
-# # - name: Reboot the system
-# #   become: true
-# #   command: reboot
+### cronjob
+- name: Create script file
+  copy:
+    src: check_vnc.sh
+    dest: /opt/check_vnc.sh
+    mode: "0755"
 
-# # - name: reboot client
-# #   ansible.builtin.reboot:
-# #     msg: "reboot by Ansible"
-# #     pre_reboot_delay: 5
-# #     post_reboot_delay: 10
-# #     test_command: "whoami"
-
-# - name: Reboot the machine
-#   reboot:
-#     reboot_timeout: 480
-#     pre_reboot_delay: 0
-#     post_reboot_delay: 30
-#   become: true
-#   become_method: sudo
-#   async: 0
-#   poll: 0
-#   register: reboot_result
-#   ignore_errors: true
-
-# - name: Wait for the machine to come back online
-#   wait_for_connection:
-#     delay: 10
-#     timeout: 480
-
-# # - name: Kill VNC server process
-# #   become: true
-# #   shell: pkill Xtightvnc
-
-# # - name: Kill VNC server process 2
-# #   become: true
-# #   shell: vncserver -kill :1
-
-# - name: Run vncserver again
-#   command: vncserver
+- name: Create cron job
+  ansible.builtin.cron:
+    name: Run check_vnc.sh every minute
+    minute: "1"
+    job: "/opt/check_vnc.sh"
+#############################################Config GUI#############################################
 
 - name: Create script file
   copy:
