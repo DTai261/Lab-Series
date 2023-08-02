@@ -36,12 +36,13 @@
   service:
     name: apache2
     state: started
-###################################################################
-# - name: Create secret directory
-#   file:
-#     path: /var/www/html/secret
-#     state: directory
 
+- name: Create secret directory
+  file:
+    path: /var/www/html/secret
+    state: directory
+    mode: '0666'
+###################################################################
 # - name: Create secret index.html file
 #   copy:
 #     dest: /var/www/html/secret/index.html
