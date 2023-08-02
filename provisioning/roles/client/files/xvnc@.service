@@ -1,0 +1,8 @@
+[Unit]
+Description=Daemon for each XVNC connection
+
+[Service]
+ExecStart=-/usr/bin/Xvnc -inetd -query localhost -geometry 2000x1200 -once -SecurityTypes=None
+User=nobody
+StandardInput=socket
+StandardError=syslog
