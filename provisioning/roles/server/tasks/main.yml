@@ -19,29 +19,10 @@
     path: /etc/sudoers
     line: '{{ username }} ALL=(ALL) NOPASSWD:ALL'
 
-# - name: Place flag
-#   copy:
-#     dest: '/home/{{ username }}/flag.txt'
-#     owner: '{{ username }}'
-#     content: '{{ flag }}'
-#     mode: '0600'
-
-# - name: Place second flag
-#   copy:
-#     dest: '/root/flag.txt'
-#     owner: root
-#     content: '{{ flag_2 }}'
-#     mode: '0600'
-
 - name: Create alias for client
   lineinfile:
     path: '/etc/hosts'
     line: '192.168.30.5 client'
-
-- name: Create alias for client 2
-  lineinfile:
-    path: '/etc/hosts'
-    line: '192.168.30.3 client2'
 
 #####
 - name: Switch to user alice
@@ -67,6 +48,10 @@
 #     dest: /etc/apache2/sites-enabled/001-secret.conf
 #     src: 001-secret.conf
 #############################################################
+
+- name: Switch to user root
+  become_user: root
+  
 - name: Create super_secret directory
   file:
     path: /var/www/html/super_secret
@@ -89,9 +74,6 @@
 #       "New password:": "Password123"
 #       "Re-type new password:": "Password123"
 
-- name: Switch to user alice
-  become_user: root
-  
 - name: Specify username and password of user2
   expect:
     command: htpasswd -c /etc/apache2/.htaccess_super_secret user2
