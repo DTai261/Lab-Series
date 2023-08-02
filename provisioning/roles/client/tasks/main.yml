@@ -145,11 +145,4 @@
     minute: "1"
     job: "/opt/basic_auth.sh"
 
-# Just a test
-- name: Test copy file from a folder
-  copy:
-    src: GUI/xstartup_test
-    dest: ~/test_only
-  ignore_errors: true
-
 ...
