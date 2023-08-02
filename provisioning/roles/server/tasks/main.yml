@@ -29,8 +29,8 @@
     line: '192.168.30.5 client'
 
 #####
-- name: Switch to user alice
-  become_user: alice
+# - name: Switch to user alice
+#   become_user: alice
   
 - name: Start Apache service
   service:
@@ -53,8 +53,8 @@
 #     src: 001-secret.conf
 #############################################################
 
-- name: Switch to user root
-  become_user: root
+# - name: Switch to user root
+#   become_user: root
   
 - name: Create super_secret directory
   file:
@@ -95,8 +95,8 @@
       "New password:": "{{ flag_1 }}"
       "Re-type new password:": "{{ flag_1 }}"
 
-- name: Switch to user alice
-  become_user: alice
+# - name: Switch to user alice
+#   become_user: alice
 
 - name: Restart Apache service
   service:
