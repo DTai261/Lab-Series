@@ -47,7 +47,6 @@
   file:
     path: /var/www/html/secret
     state: directory
-    mode: '0666'
 ###################################################################
 # - name: Create secret index.html file
 #   copy:
@@ -99,8 +98,8 @@
   expect:
     command: htpasswd -c /etc/apache2/.htaccess_super_secret user2
     responses:
-      "New password:": "{{ flag_1 }}"
-      "Re-type new password:": "{{ flag_1 }}"
+      "New password:": "HTTP_is_not_safe"
+      "Re-type new password:": "HTTP_is_not_safe"
 
 # - name: Switch to user alice
 #   become_user: alice
