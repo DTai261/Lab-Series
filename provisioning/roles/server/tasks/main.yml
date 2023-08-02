@@ -61,6 +61,11 @@
     path: /var/www/html/super_secret
     state: directory
 
+- name: Create Uploads directory
+  file:
+    path: /var/www/html/super_secret/Uploads
+    state: directory
+
 - name: Create super_secret index.html file
   copy:
     dest: /var/www/html/super_secret/index.html
