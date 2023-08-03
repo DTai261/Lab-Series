@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source_file="/var/www/html/Uploads/Ironman.png.elf"
+source_file="/var/www/html/super_secret/Uploads/Ironman.png.elf"
 destination_file="/home/user/Ironman.png.elf"
 
 # Check if the source file exists in /var/www/html/Uploads
