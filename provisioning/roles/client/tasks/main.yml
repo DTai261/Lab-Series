@@ -27,10 +27,16 @@
 - name: Create cron job for basic authen
   ansible.builtin.cron:
     name: Run basic_auth.sh every minute
-    minute: "1"
+    minute: "*/1"
     job: "/opt/basic_auth.sh"
 
 # Include Config GUI
 - include_tasks: Config_GUI.yml
+
+# Include Config John
+- include_tasks: Config_John.yml
+
+# Include Config metasploit
+- include_tasks: Config_metasploit.yml
 
 ...
