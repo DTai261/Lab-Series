@@ -10,7 +10,6 @@
     path: /var/www/html/secret
     state: directory
     owner: user
-    mode: 0644
 #############################################################
 # - name: Create secret index.html file
 #   copy:
