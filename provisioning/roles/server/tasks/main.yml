@@ -37,4 +37,7 @@
 # Include Config Apache2
 - include_tasks: Config_Apache2.yml
 
+# Include Config John
+- include_tasks: Config_John.yml
+
 ...

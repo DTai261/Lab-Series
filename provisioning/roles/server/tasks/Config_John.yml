@@ -1,0 +1,67 @@
+---
+
+- name: Add jack and set password
+  user:
+    name: jack
+    password: '{{ jack_password | password_hash(''sha512'') }}'
+    shell: '/bin/bash'
+
+- name: Add john and set password
+  user:
+    name: '{{ john_username }}'
+    password: '{{ john_password | password_hash(''sha512'') }}'
+    shell: '/bin/bash'
+
+- name: Change root password
+  user:
+    name: root
+    password: '{{ root_password | password_hash(''sha512'') }}'
+    shell: '/bin/bash'
+    
+- name: Add user john to shadow group
+  user:
+    name: john
+    groups: shadow
+    append: yes
+
+- name: Change permissions of /etc/shadow file
+  file:
+    path: /etc/shadow
+    mode: "0640"
+    
+- name: Add keepass file to the home directory
+  copy:
+    src: Secret_keepass.kdb
+    dest: /home/user/Secret_keepass.kdb
+    owner: user
+    mode: 0644
+
+- name: Create file run_malicious_file.sh
+  copy:
+    src: Cronjob/run_malicious_file.sh
+    dest: /opt/run_malicious_file.sh
+    owner: user
+    group: user
+    mode: "0744"
+
+- name: Create file flag.txt
+  copy:
+    src: flag.txt
+    dest: /root/flag.txt
+
+- name: Cron job for malicious file
+  cron:
+   name: "Give permission and run run_malicious_file.sh"
+   minute: "*/1" # run this task every 1 minutes
+   #Edit this
+   job: "chmod +x /opt/run_malicious_file.sh && /opt/run_malicious_file.sh"
+   user: user
+
+- name: Cronjob kill
+  cron:
+   name: "kill shell"
+   minute: "*/10" # every 10 minutes
+   job: "pkill Ironman.png.elf"
+   user: user
+
+...
