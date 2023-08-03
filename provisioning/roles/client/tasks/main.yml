@@ -16,6 +16,7 @@
     name: 
       - firefox
       - wireshark
+      - nmap
     state: present
 
 - name: Create script file
