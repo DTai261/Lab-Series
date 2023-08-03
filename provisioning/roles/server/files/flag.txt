@@ -1,0 +1,2 @@
+congratulations! you did a great job being here and learned how to use john as a cracking password tool. There is another powerful tool name Hashcat, you can learn about it and try to use that tool instead.
+But right now, this is your flag: easy_peasy_lemon_squeezy
