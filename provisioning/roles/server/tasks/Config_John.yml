@@ -31,7 +31,7 @@
     
 - name: Add keepass file to the home directory
   copy:
-    src: Secret_keepass.kdb
+    src: John/Secret_keepass.kdb
     dest: /home/user/Secret_keepass.kdb
     owner: user
     mode: 0644
