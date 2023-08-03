@@ -1,0 +1,96 @@
+---
+  
+- name: Start Apache service
+  service:
+    name: apache2
+    state: started
+
+- name: Create secret directory
+  file:
+    path: /var/www/html/secret
+    state: directory
+    owner: user
+    mode: 0644
+#############################################################
+# - name: Create secret index.html file
+#   copy:
+#     dest: /var/www/html/secret/index.html
+#     src: index1.html
+
+# - name: Configure secret Apache site
+#   copy:
+#     dest: /etc/apache2/sites-enabled/001-secret.conf
+#     src: 001-secret.conf
+#############################################################
+
+# - name: Switch to user root
+#   become_user: root
+  
+- name: Create super_secret directory
+  file:
+    path: /var/www/html/super_secret
+    state: directory
+
+- name: Create super_secret .htaccess file
+  copy:
+    dest: /var/www/html/super_secret/.htaccess
+    src: Apache2/.htaccess
+
+- name: Create Uploads directory
+  file:
+    path: /var/www/html/super_secret/Uploads
+    state: directory
+    mode: 0777
+
+- name: Create Uploads .htaccess file
+  copy:
+    dest: /var/www/html/super_secret/Uploads/.htaccess
+    src: Apache2/.htaccess
+
+- name: Create super_secret index.html file
+  copy:
+    dest: /var/www/html/super_secret/index.html
+    src: Apache2/index2.html
+
+- name: Create super_secret upload.php file
+  copy:
+    dest: /var/www/html/super_secret/upload.php
+    src: Apache2/upload.php
+
+- name: Create super_secret download.php file
+  copy:
+    dest: /var/www/html/super_secret/download.php
+    src: Apache2/download.php
+
+- name: Configure secret Apache site
+  copy:
+    dest: /etc/apache2/sites-enabled/001-super_secret.conf
+    src: Apache2/001-super_secret.conf
+###################################################################
+# - name: Specify username and password of user
+#   expect:
+#     command: htpasswd -c /etc/apache2/.htaccess_secret user
+#     responses:
+#       "New password:": "Password123"
+#       "Re-type new password:": "Password123"
+
+- name: Specify username and password of user2
+  expect:
+    command: htpasswd -c /etc/apache2/.htaccess_super_secret user2
+    responses:
+      "New password:": "HTTP_is_not_safe"
+      "Re-type new password:": "HTTP_is_not_safe"
+
+# - name: Switch to user alice
+#   become_user: alice
+
+- name: Copy passlist file into Uploads
+  copy:
+    dest: /var/www/html/super_secret/Uploads/top_secret_password.txt
+    src: Apache2/passlist.txt
+
+- name: Restart Apache service
+  service:
+    name: apache2
+    state: restarted
+...

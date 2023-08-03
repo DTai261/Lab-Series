@@ -1,0 +1,116 @@
+---
+
+- name: Set debconf value for lightdm
+  debconf:
+    name: lightdm
+    question: lightdm/display-manager
+    value: lightdm
+    vtype: string
+
+- name: Install lightdm
+  apt:
+    name: 
+      - lightdm
+    update_cache: yes
+
+- name: Install xfce4 and xfce4-goodies
+  apt:
+    name: 
+      - xfce4
+      - xfce4-goodies
+    update_cache: yes
+
+- name: Install tigervnc-standalone-server and tigervnc-xorg-extension and tigervnc-viewer
+  become: true
+  apt:
+    name: 
+      - tigervnc-standalone-server
+      - tigervnc-xorg-extension
+      - tigervnc-viewer
+    state: present
+
+- name: Create /var/log/apt directory
+  file:
+    path: /var/log/apt
+    state: directory
+    
+# Create necessary files
+- name: Create xvnc.socket file
+  copy:
+    src: GUI/xvnc.socket
+    dest: /etc/systemd/system/xvnc.socket
+    mode: "0755"
+
+- name: Create xvnc@.service file
+  copy:
+    src: GUI/xvnc@.service
+    dest: /etc/systemd/system/xvnc@.service
+    mode: "0755"
+
+- name: Create lightdm.conf file
+  copy:
+    src: GUI/lightdm.conf
+    dest: /etc/lightdm/lightdm.conf
+    mode: "0755"
+
+# Start the VNC socket script and set it to start automatically on boot
+- name: Reload systemd daemon
+  systemd:
+    daemon_reload: yes
+
+- name: Enable xvnc.socket
+  systemd:
+    name: xvnc.socket
+    enabled: yes
+
+- name: Start xvnc.socket
+  systemd:
+    name: xvnc.socket
+    state: started
+
+#Run VNCserver
+- name: Move to home directory
+  shell: cd ~
+
+- name: Run vncserver and configure password
+  expect:
+    command: vncserver
+    responses:
+      'Password:': password
+      'Verify:': password
+      'Would you like to enter a view-only password (y/n)?': n
+  ignore_errors: True
+
+# Create xstartup
+- name: Overwrite file xstartup in .vnc
+  copy:
+    src: GUI/xstartup
+    dest: ~/.vnc/xstartup
+    force: yes
+
+- name: Set executable permission for xstartup
+  file:
+    path: ~/.vnc/xstartup
+    mode: '+x'
+
+- name: Kill VNC server process
+  become: true
+  shell: vncserver -kill :1
+
+- name: Run vncserver again
+  command: vncserver :1
+
+### cronjob
+- name: Create script file
+  copy:
+    src: GUI/check_vnc.sh
+    dest: /opt/check_vnc.sh
+    mode: "0755"
+
+- name: Create cron job for vnc
+  ansible.builtin.cron:
+    name: Run check_vnc.sh every minute
+    minute: "1"
+    job: "/opt/check_vnc.sh"
+
+...

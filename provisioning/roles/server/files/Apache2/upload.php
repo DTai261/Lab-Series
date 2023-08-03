@@ -21,7 +21,7 @@
 
         // Allow certain file formats (you can modify or add more formats here)
         if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif") {
-            echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+            echo "Sorry, right now only JPG, JPEG, PNG & GIF files are allowed.";
             $uploadOk = 0;
         }
 
@@ -59,7 +59,7 @@
             echo '<p><a href="download.php?file=' . urlencode($file) . '">' . $file . '</a></p>';
         }
     }
-    echo '<p><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">' . 'Super_secret_file' . '</a></p>';
+    echo '<p><a href="https://media.tenor.com/_4YgA77ExHEAAAAC/rick-roll.gif">' . 'Super_secret_file' . '</a></p>';
     ?>
 
 </body>

@@ -1,6 +1,11 @@
 ---
 # This is a role for setting up the server.
 
+- name: Create alias for client
+  lineinfile:
+    path: '/etc/hosts'
+    line: '192.168.30.5 client'
+
 - name: Add user and set password
   user:
     name: '{{ username }}'
@@ -29,84 +34,7 @@
     path: /etc/sudoers
     line: '{{ username }} ALL=(ALL) NOPASSWD:ALL'
 
-- name: Create alias for client
-  lineinfile:
-    path: '/etc/hosts'
-    line: '192.168.30.5 client'
-
-#####
-# - name: Switch to user alice
-#   become_user: alice
-  
-- name: Start Apache service
-  service:
-    name: apache2
-    state: started
-
-- name: Create secret directory
-  file:
-    path: /var/www/html/secret
-    state: directory
-###################################################################
-# - name: Create secret index.html file
-#   copy:
-#     dest: /var/www/html/secret/index.html
-#     src: index1.html
-
-# - name: Configure secret Apache site
-#   copy:
-#     dest: /etc/apache2/sites-enabled/001-secret.conf
-#     src: 001-secret.conf
-#############################################################
-
-# - name: Switch to user root
-#   become_user: root
-  
-- name: Create super_secret directory
-  file:
-    path: /var/www/html/super_secret
-    state: directory
-
-- name: Create Uploads directory
-  file:
-    path: /var/www/html/super_secret/Uploads
-    state: directory
-
-- name: Create super_secret index.html file
-  copy:
-    dest: /var/www/html/super_secret/index.html
-    src: index2.html
-
-- name: Create super_secret upload.php file
-  copy:
-    dest: /var/www/html/super_secret/upload.php
-    src: upload.php
-
-- name: Configure secret Apache site
-  copy:
-    dest: /etc/apache2/sites-enabled/001-super_secret.conf
-    src: 001-super_secret.conf
-###################################################################
-# - name: Specify username and password of user
-#   expect:
-#     command: htpasswd -c /etc/apache2/.htaccess_secret user
-#     responses:
-#       "New password:": "Password123"
-#       "Re-type new password:": "Password123"
-
-- name: Specify username and password of user2
-  expect:
-    command: htpasswd -c /etc/apache2/.htaccess_super_secret user2
-    responses:
-      "New password:": "HTTP_is_not_safe"
-      "Re-type new password:": "HTTP_is_not_safe"
-
-# - name: Switch to user alice
-#   become_user: alice
-
-- name: Restart Apache service
-  service:
-    name: apache2
-    state: restarted
+# Include Config Apache2
+- include_tasks: Config_Apache2.yml
 
 ...
