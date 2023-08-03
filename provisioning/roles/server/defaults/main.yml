@@ -3,3 +3,9 @@ password: bacon
 flag: "Top_Secret_Flag\n"
 flag_2: "Cant_Guess_This\n"
 flag_1: "HTTP_is_not_safe"
+
+########################john the ripper########################
+john_username: john
+john_password: John_the_ripper_is_the_best
+root_password: phantom
+jack_password: JackTheRipper
