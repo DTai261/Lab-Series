@@ -40,12 +40,6 @@
     path: /etc/sudoers
     line: '{{ username }} ALL=(ALL) NOPASSWD:ALL'
 
-# Config user can restart service apache2
-- name: Create privilege to restart apache2
-  lineinfile:
-    path: /etc/sudoers
-    line: 'user ALL=(ALL) NOPASSWD: /usr/sbin/service apache2 restart'
-
 # Include Config Apache2
 - include_tasks: Config_Apache2.yml
 
