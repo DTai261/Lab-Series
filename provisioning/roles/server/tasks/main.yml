@@ -26,9 +26,15 @@
      - libapache2-mod-php
      - mysql-server
      - mysql-client
+     - vsftpd
     update_cache: yes
 
-# may need some change here !!!
+- name: Start vsftpd
+  systemd:
+    name: vsftpd
+    state: started
+
+# Secret root user
 - name: Create privilege escalation vulnerability
   lineinfile:
     path: /etc/sudoers
@@ -36,5 +42,8 @@
 
 # Include Config Apache2
 - include_tasks: Config_Apache2.yml
+
+# Include Config John
+- include_tasks: Config_John.yml
 
 ...

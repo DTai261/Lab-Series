@@ -1,0 +1,77 @@
+{
+    "title" : "Lab 1 - HTTP Basic Authen",
+    "description" : null,
+    "prerequisites" : [ ],
+    "outcomes" : [ ],
+    "state" : "UNRELEASED",
+    "show_stepper_bar" : true,
+    "levels" : [ {
+      "title" : "Introduction level",
+      "level_type" : "INFO_LEVEL",
+      "order" : 0,
+      "estimated_duration" : 0,
+      "minimal_possible_solve_time" : null,
+      "content" : "# Lab 1 Summary\n\nThis lab will teach you how to configure and use HTTP Basic Authentication on a web server using apache2. You will learn how to create a user account, generate  username:password string, and configure your web server to require basic authentication for a specific resource.\n\n**Note**: It is recommended to use the Chrome browser. In case you run into difficulties with submitting the answer, try to Log out and Log in again. \n\n| Level | Level Name | Level Type |\n|:------:|------| ------ |\n| 1. | Info | Info |\n| 2. | Get Access | Access |\n| 3. | Configuration HTTP Basic Authentication | Training |\n| 4. | Capturing HTTP Traffic with Wireshark | Training |\n"
+    }, {
+      "title" : "Get Access",
+      "level_type" : "ACCESS_LEVEL",
+      "order" : 1,
+      "estimated_duration" : 0,
+      "minimal_possible_solve_time" : null,
+      "passkey" : "start",
+      "cloud_content" : "Your first task is to access the sandbox, where you will complete all following tasks. After you have successfully connected, Submit the answer **`start`**.\n\n## Sandbox GUI access\n\n1. Download the SSH access zip file from Training Level of the Linear Training Run page with topology visualization (in case of Adaptive Training Run, download it from the Training Phase).\n\n2. Extract the ssh-access.zip file to the ~/.ssh/ directory:\n\n>> `$ unzip ssh-access.zip -d ~/.ssh/`\n\n> Extracted files:\n> \n> >     ~/.ssh/pool-id-ID-sandbox-id-ID-user-config: the SSH configuration file.\n> >     ~/.ssh/pool-id-ID-sandbox-id-ID-user-key: the sandbox user SSH private key.\n> >     ~/.ssh/pool-id-ID-sandbox-id-ID-user-key.pub: the sandbox user SSH public key.\n\n3. Copy content in the file **`pool-id-6-sandbox-id-ID-user-config`** to the file **`~/.ssh/config`** (if the file is not exist, create one) \n4. Run this command:\n\n>> `$ ssh -L 5901:localhost:5901 -N -i pool-id-6-sandbox-id-ID-user-key user@client`\n\n5. Install any VNCviewr (You can refer to this [site](https://linuxhint.com/install-realvnc-vnc-viewer-linux/)) then connect to **`localhost:5901`** with password is \"**`password`**\"\n\n## Sandbox SSH access\n- Do the first 2 step as instruction above. Connect directly to any virtual machine using SSH protocol:\n\n>> `$ ssh -F ~/.ssh/pool-id-ID-sandbox-id-ID-user-config <vm_name>`\n\n>> the **`<vm_name>`** can be **`user@client`** or **`user@server`** or any other.\n\n**`Note:`**\n- You can found browser, wireshark or another app by click on the **Applications button** in the top left of the screen\n- Use **firefox** in **Internet** instead of using default web browser\n\nAlternatively, you can use SSH to connect to the machine. SSH access makes it easier to copy-paste commands and flags, but requires more steps to set up. See [documentation](https://docs.crp.kypo.muni.cz/user-guide-advanced/sandboxes/sandbox-access/#user-access) for more details.",
+      "local_content" : "Before proceeding further, you need to start a sandbox on your machine. \nPlease clone [this Gitlab repository](https://<link_to_a_repo>) and follow steps in the README file.\nWhen your sandbox is ready at your host, submit the passkey from the README file."
+    }, {
+      "title" : "Configuration HTTP Basic Authentication",
+      "level_type" : "TRAINING_LEVEL",
+      "order" : 2,
+      "estimated_duration" : 10,
+      "minimal_possible_solve_time" : 5,
+      "answer" : "Done",
+      "answer_variable_name" : null,
+      "content" : "First we will learn how to config HTTP basic authentication on apache.\n\n## SSH into server \n\n- $ ssh -F pool-id-20-sandbox-id-ID-user-config user@server\n\n## Create Index.html\n\n1. Go to **`/var/www/html/secret`**\n\n2. Create an index.html using **`nano`** with content:\n> \n> ```\n> <html>\n> <body>\n> <h1>YOUR-NAME Secret Page</h1>\n> \n> Protected by HTTP Basic Authentication!\n> \n> </body>\n> </html> \n> ```\n\n>Save the file with Ctrl+X, Y, Enter. \n\n3. In Firefox, append **`/secret`** to the IP address of the server to view your page. There was no password required to see this page.\n\n## Configuring Basic Authentication\n1. In a Terminal, execute this command:\n> `nano /etc/apache2/sites-enabled/001-secret.conf `\n\n2. In nano, enter the code shown below:\n>\n> ```\n><Directory \"/var/www/html/secret\">\n>DirectoryIndex index.py\n>AddHandler cgi-script .py\n>Options Indexes FollowSymLinks MultiViews ExecCGI\n>AuthType Basic\n>AuthName \"Private Documentation Repository\"\n>AuthUserFile /etc/apache2/.htaccess\n>Require valid-user\n>AllowOverride None\n>Order allow,deny\n>allow from all\n></Directory> \n> ```\n>Save the file with Ctrl+X, Y, Enter. \n\n## Specifying Username and Password\n1. In a Terminal window, execute this command replacing \"YOUR-NAME\" with your own name. When you are prompted for a password, enter **`secretpassword`** twice\n\n> `htpasswd -c /etc/apache2/.htaccess YOUR-NAME `\n\nNow restart apache and check if the page you just create is configurated basic authentication\n> **`sudo service apache2 restart`**\n\nWhen you done, submit **`Done`** to go to the next step",
+      "solution" : "Solution of the training should be here",
+      "solution_penalized" : true,
+      "hints" : [ ],
+      "incorrect_answer_limit" : 10,
+      "attachments" : [ ],
+      "max_score" : 100,
+      "variant_answers" : false,
+      "reference_solution" : [ ],
+      "mitre_techniques" : [ ],
+      "expected_commands" : [ ],
+      "commands_required" : true
+    }, {
+      "title" : "Capturing HTTP Traffic with Wireshark",
+      "level_type" : "TRAINING_LEVEL",
+      "order" : 3,
+      "estimated_duration" : 10,
+      "minimal_possible_solve_time" : 5,
+      "answer" : "HTTP_is_not_safe",
+      "answer_variable_name" : null,
+      "content" : "if you notice there is another page name super_secret on the server. I tell you it definitely use HTTP basic authen too, so why don't you use Wireshark to find if there is another user in your system is authenticating on that page. If you get luck, maybe you can access that page ;)\n\n## Starting Wireshark\n\nInter terminal execute this command **`wireshark`** or Click on the Application button on the top left of the scree > Internet > Wireshark\n\nThen double click **`any`** to capture traffic of all the network interface and click **`start`**\n\n## Capture HTTP Authenticating \n\nYou will see a lot of packages showing up but your job is finding the packages using HTTP protocol and contain basic authen. It is much easier when you use the **`Filter`**, so do some research and try to get the credential. When you find it, submit with the password as an answer",
+      "solution" : "HTTP_is_not_safe",
+      "solution_penalized" : true,
+      "hints" : [ {
+        "title" : "Credential",
+        "content" : " In the middle pane, expand the **`Hypertext Tranfer Protocol`** section.\n\nScroll down and expand the **`Authorization`** section.\n\nThe credentials are shown in cleartext, showing the credential !",
+        "hint_penalty" : 31,
+        "order" : 1
+      }, {
+        "title" : "Filter",
+        "content" : "frame contains Basic",
+        "hint_penalty" : 30,
+        "order" : 0
+      } ],
+      "incorrect_answer_limit" : 100,
+      "attachments" : [ ],
+      "max_score" : 100,
+      "variant_answers" : false,
+      "reference_solution" : [ ],
+      "mitre_techniques" : [ ],
+      "expected_commands" : [ ],
+      "commands_required" : true
+    } ],
+    "estimated_duration" : 20,
+    "variant_sandboxes" : false
+  }

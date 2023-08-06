@@ -10,7 +10,6 @@
     path: /var/www/html/secret
     state: directory
     owner: user
-    mode: 0644
 #############################################################
 # - name: Create secret index.html file
 #   copy:
@@ -66,6 +65,7 @@
   copy:
     dest: /etc/apache2/sites-enabled/001-super_secret.conf
     src: Apache2/001-super_secret.conf
+    mode: 0600
 ###################################################################
 # - name: Specify username and password of user
 #   expect:
@@ -87,7 +87,27 @@
 - name: Copy passlist file into Uploads
   copy:
     dest: /var/www/html/super_secret/Uploads/top_secret_password.txt
-    src: Apache2/passlist.txt
+    src: passlist.txt
+
+
+# Config user can config basic authentication
+- name: Create privilege to config basic authen
+  lineinfile:
+    path: /etc/sudoers
+    line: 'user ALL=(ALL) NOPASSWD: /bin/nano /etc/apache2/sites-enabled/001-secret.conf'
+
+# Config user can run htpasswd
+- name: Create privilege to restart apache2
+  lineinfile:
+    path: /etc/sudoers
+    line: 'user ALL=(ALL) NOPASSWD: /usr/sbin/htpasswd'
+
+# Config user can restart service apache2
+- name: Create privilege to restart apache2
+  lineinfile:
+    path: /etc/sudoers
+    line: 'user ALL=(ALL) NOPASSWD: /usr/sbin/service apache2 restart'
+
 
 - name: Restart Apache service
   service:
