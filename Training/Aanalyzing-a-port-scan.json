@@ -1,0 +1,393 @@
+{
+  "title" : "Uploaded lab3-analyzing-a-port-scan",
+  "description" : "Learn and practice with some scan tools.",
+  "prerequisites" : [ ],
+  "outcomes" : [ ],
+  "state" : "UNRELEASED",
+  "show_stepper_bar" : true,
+  "levels" : [ {
+    "title" : "Introduction to this Lab",
+    "level_type" : "INFO_LEVEL",
+    "order" : 0,
+    "estimated_duration" : 0,
+    "minimal_possible_solve_time" : null,
+    "content" : "Welcome to the laboratory session on analyzing a port scan using [Nmap](https://nmap.org/). In this lab, we will explore the fascinating world of port scanning, one of the essential techniques in network security. By utilizing a powerful tools - [Nmap](https://nmap.org/), we will delve into the intricacies of port scans and gain hands-on experience in analyzing their results.\n\nPort scanning plays a critical role in identifying open ports and potential vulnerabilities in a target system. It allows network administrators and security analysts to assess the security posture of their networks and take proactive measures to mitigate risks.\n\nIn this lab, we will begin by introducing [Nmap](https://nmap.org/), a widely-used and versatile port scanning tool. You will learn how to install and configure [Nmap](https://nmap.org/), and we will explore various scanning techniques, such as TCP, UDP, and SYN scans. We will discuss the characteristics of each scan type and their respective use cases.\n\nBy the end of this lab, you will have acquired practical skills in using [Nmap](https://nmap.org/) for port scanning. This knowledge will empower you to identify and address potential vulnerabilities in your network infrastructure effectively.\n\nFeel free to ask questions, collaborate with your peers, and actively participate in the lab activities. Engage with a curious and analytical mindset to make the most out of this hands-on experience and deepen your understanding of port scanning, [Nmap](https://nmap.org/).\n\nLet's embark on this exciting journey of analyzing port scans using [Nmap](https://nmap.org/)."
+  }, {
+    "title" : "Introduction to Nmap",
+    "level_type" : "INFO_LEVEL",
+    "order" : 1,
+    "estimated_duration" : 0,
+    "minimal_possible_solve_time" : null,
+    "content" : "# **Name**\nnmap — Network exploration tool and security / port scanner\n\n# **Synopsis**\n`nmap [ <Scan Type> ...] [ <Options> ] { <target specification> }`\n\n# **Description**\nNmap (“Network Mapper”) is an open source tool for network exploration and security auditing. It was designed to rapidly scan large networks, although it works fine against single hosts. Nmap uses raw IP packets in novel ways to determine what hosts are available on the network, what services (application name and version) those hosts are offering, what operating systems (and OS versions) they are running, what type of packet filters/firewalls are in use, and dozens of other characteristics. While Nmap is commonly used for security audits, many systems and network administrators find it useful for routine tasks such as network inventory, managing service upgrade schedules, and monitoring host or service uptime.\n\nThe output from Nmap is a list of scanned targets, with supplemental information on each depending on the options used. Key among that information is the “interesting ports table”. That table lists the port number and protocol, service name, and state. The state is either open, filtered, closed, or unfiltered. Open means that an application on the target machine is listening for connections/packets on that port. Filtered means that a firewall, filter, or other network obstacle is blocking the port so that Nmap cannot tell whether it is open or closed. Closed ports have no application listening on them, though they could open up at any time. Ports are classified as unfiltered when they are responsive to Nmap's probes, but Nmap cannot determine whether they are open or closed. Nmap reports the state combinations open|filtered and closed|filtered when it cannot determine which of the two states describe a port. The port table may also include software version details when version detection has been requested. When an IP protocol scan is requested (-sO), Nmap provides information on supported IP protocols rather than listening ports.\n\nIn addition to the interesting ports table, Nmap can provide further information on targets, including reverse DNS names, operating system guesses, device types, and MAC addresses.\n\nWe can read more in [Nmap](https://nmap.org/)"
+  }, {
+    "title" : "Get Access",
+    "level_type" : "ACCESS_LEVEL",
+    "order" : 2,
+    "estimated_duration" : 0,
+    "minimal_possible_solve_time" : null,
+    "passkey" : "start",
+    "cloud_content" : "Your first task is to access the sandbox, where you will complete all following tasks. After you have successfully connected, Submit the answer **`start`**.\n\n## Sandbox GUI access\n\n1. Download the SSH access zip file from Training Level of the Linear Training Run page with topology visualization (in case of Adaptive Training Run, download it from the Training Phase).\n\n2. Extract the ssh-access.zip file to the ~/.ssh/ directory:\n\n>> `$ unzip ssh-access.zip -d ~/.ssh/`\n\n> Extracted files:\n> \n> >     ~/.ssh/pool-id-ID-sandbox-id-ID-user-config: the SSH configuration file.\n> >     ~/.ssh/pool-id-ID-sandbox-id-ID-user-key: the sandbox user SSH private key.\n> >     ~/.ssh/pool-id-ID-sandbox-id-ID-user-key.pub: the sandbox user SSH public key.\n\n3. Copy content in the file **`pool-id-ID-sandbox-id-ID-user-config`** to the file **`~/.ssh/config`** (if the file is not exist, create one) \n4. Run this command:\n\n>> `$ ssh -L 5901:localhost:5901 -N -i pool-id-ID-sandbox-id-ID-user-key user@client`\n\n5. Install any VNCviewr (You can refer to this [site](https://linuxhint.com/install-realvnc-vnc-viewer-linux/)) then connect to **`localhost:5901`** with password is \"**`password`**\"\n\n## Sandbox SSH access\n- Do the first 2 step as instruction above. Connect directly to any virtual machine using SSH protocol:\n\n>> `$ ssh -F ~/.ssh/pool-id-ID-sandbox-id-ID-user-config <vm_name>`\n\n>> the **`<vm_name>`** can be **`user@client`** or **`user@server`** or any other.\n\n**`Note:`**\n- You can found browser, wireshark or another app by click on the **Applications button** in the top left of the screen\n- Use **firefox** in **Internet** instead of using default web browser\n\nAlternatively, you can use SSH to connect to the machine. SSH access makes it easier to copy-paste commands and flags, but requires more steps to set up. See [documentation](https://docs.crp.kypo.muni.cz/user-guide-advanced/sandboxes/sandbox-access/#user-access) for more details.",
+    "local_content" : "Your first task is to access the sandbox, where you will complete all following tasks. After you have successfully connected, Submit the answer **`start`**.\n\n## Sandbox GUI access\n\n1. Download the SSH access zip file from Training Level of the Linear Training Run page with topology visualization (in case of Adaptive Training Run, download it from the Training Phase).\n\n2. Extract the ssh-access.zip file to the ~/.ssh/ directory:\n\n>> `$ unzip ssh-access.zip -d ~/.ssh/`\n\n> Extracted files:\n> \n> >     ~/.ssh/pool-id-ID-sandbox-id-ID-user-config: the SSH configuration file.\n> >     ~/.ssh/pool-id-ID-sandbox-id-ID-user-key: the sandbox user SSH private key.\n> >     ~/.ssh/pool-id-ID-sandbox-id-ID-user-key.pub: the sandbox user SSH public key.\n\n3. Copy content in the file **`pool-id-ID-sandbox-id-ID-user-config`** to the file **`~/.ssh/config`** (if the file is not exist, create one) \n4. Run this command:\n\n>> `$ ssh -L 5901:localhost:5901 -N -i pool-id-ID-sandbox-id-ID-user-key user@client`\n\n5. Install any VNCviewr (You can refer to this [site](https://linuxhint.com/install-realvnc-vnc-viewer-linux/)) then connect to **`localhost:5901`** with password is \"**`password`**\"\n\n## Sandbox SSH access\n- Do the first 2 step as instruction above. Connect directly to any virtual machine using SSH protocol:\n\n>> `$ ssh -F ~/.ssh/pool-id-ID-sandbox-id-ID-user-config <vm_name>`\n\n>> the **`<vm_name>`** can be **`user@client`** or **`user@server`** or any other.\n\n**`Note:`**\n- You can found browser, wireshark or another app by click on the **Applications button** in the top left of the screen\n- Use **firefox** in **Internet** instead of using default web browser\n\nAlternatively, you can use SSH to connect to the machine. SSH access makes it easier to copy-paste commands and flags, but requires more steps to set up. See [documentation](https://docs.crp.kypo.muni.cz/user-guide-advanced/sandboxes/sandbox-access/#user-access) for more details."
+  }, {
+    "title" : "Check connection to server",
+    "level_type" : "TRAINING_LEVEL",
+    "order" : 3,
+    "estimated_duration" : 5,
+    "minimal_possible_solve_time" : null,
+    "answer" : "192.168.20.5",
+    "answer_variable_name" : null,
+    "content" : "Check connection to server and what is IP of server?",
+    "solution" : "`ping server`",
+    "solution_penalized" : true,
+    "hints" : [ {
+      "title" : "Hint",
+      "content" : "server is a hostname",
+      "hint_penalty" : 10,
+      "order" : 0
+    } ],
+    "incorrect_answer_limit" : 10,
+    "attachments" : [ ],
+    "max_score" : 100,
+    "variant_answers" : false,
+    "reference_solution" : [ ],
+    "mitre_techniques" : [ ],
+    "expected_commands" : [ ],
+    "commands_required" : true
+  }, {
+    "title" : "Check Nmap tool",
+    "level_type" : "TRAINING_LEVEL",
+    "order" : 4,
+    "estimated_duration" : 5,
+    "minimal_possible_solve_time" : null,
+    "answer" : "5",
+    "answer_variable_name" : null,
+    "content" : "Check Nmap tool and try with some example command :\n1. `nmap`\n\n2. `nmap -v -A scanme.nmap.org`\n\nHow many ports opening on scanme.nmap.org?\n",
+    "solution" : "`nmap -v -A scanme.nmap.org`",
+    "solution_penalized" : true,
+    "hints" : [ {
+      "title" : "Hint",
+      "content" : "The PORT and STATE column in OUTPUT of Nmap",
+      "hint_penalty" : 10,
+      "order" : 0
+    } ],
+    "incorrect_answer_limit" : 10,
+    "attachments" : [ ],
+    "max_score" : 100,
+    "variant_answers" : false,
+    "reference_solution" : [ ],
+    "mitre_techniques" : [ ],
+    "expected_commands" : [ ],
+    "commands_required" : true
+  }, {
+    "title" : "Scan all ports on server",
+    "level_type" : "TRAINING_LEVEL",
+    "order" : 5,
+    "estimated_duration" : 5,
+    "minimal_possible_solve_time" : null,
+    "answer" : "4",
+    "answer_variable_name" : null,
+    "content" : "Let's try scan `server`, how many ports opening on server?",
+    "solution" : "`nmap -T4 -A server`",
+    "solution_penalized" : true,
+    "hints" : [ {
+      "title" : "Hint",
+      "content" : "Similar to level 5 but server is hostname in here",
+      "hint_penalty" : 10,
+      "order" : 0
+    } ],
+    "incorrect_answer_limit" : 10,
+    "attachments" : [ ],
+    "max_score" : 100,
+    "variant_answers" : false,
+    "reference_solution" : [ ],
+    "mitre_techniques" : [ ],
+    "expected_commands" : [ ],
+    "commands_required" : true
+  }, {
+    "title" : "Scan more information in a special port",
+    "level_type" : "TRAINING_LEVEL",
+    "order" : 6,
+    "estimated_duration" : 10,
+    "minimal_possible_solve_time" : null,
+    "answer" : "http",
+    "answer_variable_name" : null,
+    "content" : "Try to analyze port 80. Which service is active on this port?",
+    "solution" : "`nmap -T4 -A -p 80 server`",
+    "solution_penalized" : true,
+    "hints" : [ {
+      "title" : "Hint",
+      "content" : "Similar to level 6 but focus on special port!",
+      "hint_penalty" : 10,
+      "order" : 0
+    } ],
+    "incorrect_answer_limit" : 10,
+    "attachments" : [ ],
+    "max_score" : 100,
+    "variant_answers" : false,
+    "reference_solution" : [ ],
+    "mitre_techniques" : [ ],
+    "expected_commands" : [ ],
+    "commands_required" : true
+  }, {
+    "title" : "Scan more information in a special port",
+    "level_type" : "TRAINING_LEVEL",
+    "order" : 7,
+    "estimated_duration" : 10,
+    "minimal_possible_solve_time" : null,
+    "answer" : "1",
+    "answer_variable_name" : null,
+    "content" : "Still on port 80, how many files or directories is disallowed by robots.txt file?",
+    "solution" : "`nmap -T4 -A -p 80 server`",
+    "solution_penalized" : true,
+    "hints" : [ {
+      "title" : "Hint",
+      "content" : "Similar the before level but focus on the row include `robots.txt`",
+      "hint_penalty" : 10,
+      "order" : 0
+    } ],
+    "incorrect_answer_limit" : 10,
+    "attachments" : [ ],
+    "max_score" : 100,
+    "variant_answers" : false,
+    "reference_solution" : [ ],
+    "mitre_techniques" : [ ],
+    "expected_commands" : [ ],
+    "commands_required" : true
+  }, {
+    "title" : "Scan more information in a special port",
+    "level_type" : "TRAINING_LEVEL",
+    "order" : 8,
+    "estimated_duration" : 10,
+    "minimal_possible_solve_time" : null,
+    "answer" : "Nmap_1s_gr34t_sc4n_t00l",
+    "answer_variable_name" : null,
+    "content" : "What is the http-title on server?",
+    "solution" : "`nmap -T4 -A -p 80 server`",
+    "solution_penalized" : true,
+    "hints" : [ {
+      "title" : "Hint",
+      "content" : "Before the before level but focus on `http-title`",
+      "hint_penalty" : 10,
+      "order" : 0
+    } ],
+    "incorrect_answer_limit" : 10,
+    "attachments" : [ ],
+    "max_score" : 100,
+    "variant_answers" : false,
+    "reference_solution" : [ ],
+    "mitre_techniques" : [ ],
+    "expected_commands" : [ ],
+    "commands_required" : true
+  }, {
+    "title" : "Summary about Nmap",
+    "level_type" : "ASSESSMENT_LEVEL",
+    "order" : 9,
+    "estimated_duration" : 10,
+    "minimal_possible_solve_time" : null,
+    "questions" : [ {
+      "question_type" : "MCQ",
+      "text" : "What is the fully name of Nmap?",
+      "points" : 100,
+      "penalty" : 0,
+      "order" : 0,
+      "answer_required" : true,
+      "choices" : [ {
+        "text" : "Network Mapping",
+        "correct" : false,
+        "order" : 0
+      }, {
+        "text" : "Network Mapper",
+        "correct" : true,
+        "order" : 1
+      }, {
+        "text" : "Networking Mapper",
+        "correct" : false,
+        "order" : 2
+      }, {
+        "text" : "No Mapping",
+        "correct" : false,
+        "order" : 3
+      } ]
+    }, {
+      "question_type" : "MCQ",
+      "text" : "Nmap is a/an ... tool.",
+      "points" : 100,
+      "penalty" : 0,
+      "order" : 1,
+      "answer_required" : true,
+      "choices" : [ {
+        "text" : "open source",
+        "correct" : true,
+        "order" : 0
+      }, {
+        "text" : "close source",
+        "correct" : false,
+        "order" : 1
+      } ]
+    }, {
+      "question_type" : "MCQ",
+      "text" : "What is the purpose of Nmap?",
+      "points" : 100,
+      "penalty" : 0,
+      "order" : 2,
+      "answer_required" : true,
+      "choices" : [ {
+        "text" : "network exploration",
+        "correct" : true,
+        "order" : 0
+      }, {
+        "text" : "security auditing",
+        "correct" : true,
+        "order" : 1
+      } ]
+    }, {
+      "question_type" : "MCQ",
+      "text" : "Which is raw packets that Nmap uses?",
+      "points" : 100,
+      "penalty" : 0,
+      "order" : 3,
+      "answer_required" : true,
+      "choices" : [ {
+        "text" : "TCP",
+        "correct" : false,
+        "order" : 0
+      }, {
+        "text" : "UDP",
+        "correct" : false,
+        "order" : 1
+      }, {
+        "text" : "IP",
+        "correct" : true,
+        "order" : 2
+      }, {
+        "text" : "ICMP",
+        "correct" : false,
+        "order" : 3
+      } ]
+    }, {
+      "question_type" : "MCQ",
+      "text" : "In this command : \n\n`nmap -A -T4 scanme.nmap.org`.\n\n What is the option `-A` ?\n",
+      "points" : 100,
+      "penalty" : 0,
+      "order" : 4,
+      "answer_required" : true,
+      "choices" : [ {
+        "text" : "enable OS and version detection",
+        "correct" : true,
+        "order" : 0
+      }, {
+        "text" : "script scanning",
+        "correct" : true,
+        "order" : 1
+      }, {
+        "text" : "traceroute",
+        "correct" : true,
+        "order" : 2
+      }, {
+        "text" : "faster execution",
+        "correct" : false,
+        "order" : 3
+      }, {
+        "text" : "hostname",
+        "correct" : false,
+        "order" : 4
+      } ]
+    }, {
+      "question_type" : "MCQ",
+      "text" : "In this command : \n\n`nmap -A -T4 scanme.nmap.org`.\n\n What is the option `-T4` ?\n",
+      "points" : 100,
+      "penalty" : 0,
+      "order" : 5,
+      "answer_required" : true,
+      "choices" : [ {
+        "text" : "enable OS and version detection",
+        "correct" : false,
+        "order" : 0
+      }, {
+        "text" : "script scanning",
+        "correct" : false,
+        "order" : 1
+      }, {
+        "text" : "traceroute",
+        "correct" : false,
+        "order" : 2
+      }, {
+        "text" : "faster execution",
+        "correct" : true,
+        "order" : 3
+      }, {
+        "text" : "hostname",
+        "correct" : false,
+        "order" : 4
+      } ]
+    }, {
+      "question_type" : "MCQ",
+      "text" : "In this command : \n\n`nmap -A -T4 scanme.nmap.org`.\n\n What is the `scanme.nmap.org` ?\n",
+      "points" : 0,
+      "penalty" : 0,
+      "order" : 6,
+      "answer_required" : true,
+      "choices" : [ {
+        "text" : "enable OS and version detection",
+        "correct" : false,
+        "order" : 0
+      }, {
+        "text" : "script scanning",
+        "correct" : false,
+        "order" : 1
+      }, {
+        "text" : "traceroute",
+        "correct" : false,
+        "order" : 2
+      }, {
+        "text" : "faster execution",
+        "correct" : false,
+        "order" : 3
+      }, {
+        "text" : "hostname",
+        "correct" : true,
+        "order" : 4
+      } ]
+    }, {
+      "question_type" : "FFQ",
+      "text" : "What option when we only scan specified ports?",
+      "points" : 100,
+      "penalty" : 0,
+      "order" : 7,
+      "answer_required" : true,
+      "choices" : [ {
+        "text" : "-p",
+        "correct" : true,
+        "order" : 0
+      } ]
+    }, {
+      "question_type" : "FFQ",
+      "text" : "What option to enable OS detection?",
+      "points" : 100,
+      "penalty" : 0,
+      "order" : 8,
+      "answer_required" : true,
+      "choices" : [ {
+        "text" : "-O",
+        "correct" : true,
+        "order" : 0
+      } ]
+    }, {
+      "question_type" : "FFQ",
+      "text" : "What option to probe open ports to determine service/version info?",
+      "points" : 100,
+      "penalty" : 0,
+      "order" : 9,
+      "answer_required" : true,
+      "choices" : [ {
+        "text" : "-sV",
+        "correct" : true,
+        "order" : 0
+      } ]
+    } ],
+    "instructions" : "Summary about Nmap",
+    "assessment_type" : "TEST"
+  } ],
+  "estimated_duration" : 55,
+  "variant_sandboxes" : false
+}
