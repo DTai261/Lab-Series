@@ -1,0 +1,18 @@
+We are updating our FTP service to improve security. As of today, only the following users will be able to access the FTP service:
+
+| id  | username |
+| --- | -------- |
+| 1   | john     |
+| 2   | root     |
+| 3   | jack     |
+| 4   | david    |
+
+If you are not one of these users, you will no longer be able to access the FTP service. This is because we have identified a security vulnerability in the FTP service that could allow unauthorized users to access sensitive data.
+
+We apologize for any inconvenience this may cause. If you have any questions, please contact the IT department.
+
+Why are we only allowing certain users to access the FTP service?
+
+We are only allowing certain users to access the FTP service because we have identified a security vulnerability in the FTP service that could allow unauthorized users to access sensitive data. By limiting access to the FTP service to only authorized users, we can help to mitigate this risk.
+
+We understand that this may be inconvenient for some users. However, we believe that it is important to take steps to protect our users' data. We appreciate your understanding.

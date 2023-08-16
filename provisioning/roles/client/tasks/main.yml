@@ -17,6 +17,7 @@
       - firefox
       - wireshark
       - nmap
+      - hydra
     state: present
 
 - name: Create script file

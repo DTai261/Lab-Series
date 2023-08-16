@@ -1,0 +1,54 @@
+---
+
+- name: Create /home/jack/ftp directory
+  file:
+    path: /home/jack/ftp
+    state: directory
+    owner: jack
+
+- name: Create From_David file
+  copy:
+    dest: /home/jack/ftp/From_David
+    src: FTP/From_David
+    owner: jack
+
+- name: Create From_John file
+  copy:
+    dest: /home/jack/ftp/From_John
+    src: FTP/From_John
+    owner: jack
+
+- name: Create From_Root file
+  copy:
+    dest: /home/jack/ftp/From_Root
+    src: FTP/From_Root
+    owner: jack
+
+- name: Create /opt/anonymous_ftp directory
+  file:
+    path: /opt/anonymous_ftp
+    state: directory
+
+- name: Create Announcement file
+  copy:
+    dest: /opt/anonymous_ftp/Announcement
+    src: FTP/Announcement
+
+- name: Create vsftpd.conf file
+  copy:
+    dest: /etc/vsftpd.conf
+    src: FTP/vsftpd.conf
+    force: true
+
+- name: Create vsftpd.userlist file
+  copy:
+    dest: /etc/vsftpd.userlist
+    src: FTP/vsftpd.userlist
+    force: true
+
+- name: Restart vsftpd
+  systemd:
+    name: vsftpd
+    state: restarted
+
+...
