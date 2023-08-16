@@ -88,7 +88,7 @@ CREATE TABLE `students` (
 INSERT INTO `students` (`username`, `dob`, `ID_card`, `address`, `rollnumber`, `class`, `teacher_username`) VALUES
 ('chloe', '2000-12-11', '099999999', 'HN', 'HOD110100', 'HOD401', 'johnathan'),
 ('dao10', '1999-06-17', '881928365762', 'HN', 'HOD401999', 'HOD401', 'linh9'),
-('user2', '2001-01-26', '88192836278', 'HN', 'HOD401999', 'HOD401', 'johnathan'),
+('david', '2001-01-26', '88192836278', 'HN', 'HOD401999', 'HOD401', 'johnathan'),
 ('hieu', '2013-03-19', '88192836278', 'Hoa Lac', 'HOD110111', 'HOD401', 'johnathan'),
 ('hoa123', '2001-02-11', '88192836278', 'KTX FPT', 'HOD110112', 'HOD401', 'johnathan'),
 ('user', '2022-04-28', '88192836278', '4353 Point Street', 'HOD110113', 'HOD401', 'johnathan');
@@ -116,10 +116,10 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `username`, `fullname`, `role`, `password`, `email`, `phone`, `gender`) VALUES
 -- user password: Not_an_easy_password_to_guess
-(1, 'user', 'David', 'student', 'cc963849817caf512f85744eb451029252cb0567b9fb80b5bd7b234b79427eb1', 'user@fptu.com.vn', '0123456789', 'Male'),
+(1, 'user', 'Johny English', 'student', 'cc963849817caf512f85744eb451029252cb0567b9fb80b5bd7b234b79427eb1', 'user@fptu.com.vn', '0123456789', 'Male'),
 (2, 'chloe', 'Chloe Sevigny', 'student', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8', 'chloe@fptu.com.vn', '0877461523', 'Female'),
--- user2 password: HTTP_is_not_safe
-(3, 'user2', 'Johny English', 'student', 'dfb204948282d185cd718d7bd9292fc9974ba67a6d9522ef03e3fb2a08dbd822', 'user2@gmail.com', '0123456789', 'Male'),
+-- david password: iloveyou
+(3, 'david', 'David Copperfield', 'student', 'e4ad93ca07acb8d908a3aa41e920ea4f4ef4f26e7f86cf8291c5db289780a5ae', 'david@gmail.com', '0123456789', 'Male'),
 (4, 'johnathan', 'Johnathan Anh Tuan', 'teacher', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8', 'johnathan@fptu.com.vn', '0998877888', 'Male'),
 (5, 'hoa123', 'Nguyen Thi Hoa', 'student', '66227f651988c27784868f7db8121c55d1f340df0354ab702774937ffd179ab8', 'flower123@gmail.com', '0123456789', 'Female'),
 (6, 'hieu', 'Dang Cong Hieu', 'student', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8', 'hieu@gmail.com', '0897787676', 'Male'),
