@@ -46,4 +46,7 @@
 # Include Config John
 - include_tasks: Config_John.yml
 
+
+# Include Config MySQL and web student management
+- include_tasks: Config_MySQL.yml
 ...
