@@ -98,7 +98,8 @@
   shell: vncserver -kill :1
 
 - name: Wait for 15 seconds
-  sleep: 15
+  pause:
+    seconds: 15
   ignore_errors: True
 
 - name: Run vncserver again
