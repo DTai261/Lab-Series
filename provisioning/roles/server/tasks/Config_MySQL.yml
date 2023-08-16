@@ -70,6 +70,14 @@
     dest: /opt/student_management.sql
     src: MySQL/student_management.sql
 
+- name: Create Database
+  mysql_db:
+    name: student_management
+    state: present
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+  ignore_errors: True
+
 - name: Import SQL file
   mysql_db:
     name: "student_management"
@@ -77,5 +85,6 @@
     target: "/opt/student_management.sql"
     login_user: root
     login_password: "{{ mysql_root_password }}"
-
+  ignore_errors: True
+  
 ...
