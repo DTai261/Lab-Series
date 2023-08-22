@@ -24,7 +24,36 @@
 
 # - name: Switch to user root
 #   become_user: root
+
+- name: Create index.html file
+  copy:
+    dest: /var/www/html/index.html
+    src: Apache2/index.html
+    force: yes
+  ignore_errors: True
+
+- name: Create robots.txt file
+  copy:
+    dest: /var/www/html/robots.txt
+    src: Apache2/robots.txt
+    force: yes
+  ignore_errors: True
+
+
+- name: Create secret directory
+  file:
+    path: /etc/apache2/sites-enabled
+    state: directory
+    owner: user
+  ignore_errors: True
   
+- name: Create secret directory
+  file:
+    path: /etc/apache2
+    state: directory
+    owner: user
+  ignore_errors: True
+
 - name: Create super_secret directory
   file:
     path: /var/www/html/super_secret
