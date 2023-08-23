@@ -1,4 +1,5 @@
-name: lab-series-ver-3
+
+name: lab-series
 
 hosts:
   - name: server
