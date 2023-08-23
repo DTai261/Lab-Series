@@ -3,19 +3,19 @@
 # Instal Metasploit
 - name: Create directory for Metasploit
   file:
-    path: "/home/user/msf"
+    path: "/root/msf"
     state: directory
     mode: "0755"
 
 - name: Download metasploit
   get_url:
     url: https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb
-    dest: /home/user/msf/msfinstall
+    dest: /root/msf/msfinstall
     mode: '0755'
 
 - name: Run msfinstall script
   shell: "./msfinstall"
   args:
-    chdir: /home/user/msf
+    chdir: /root/msf
 
 ...

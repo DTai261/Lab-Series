@@ -97,8 +97,14 @@
   become: true
   shell: vncserver -kill :1
 
+- name: Wait for 15 seconds
+  pause:
+    seconds: 15
+  ignore_errors: True
+
 - name: Run vncserver again
-  command: vncserver :1
+  command: vncserver
+  ignore_errors: True
 
 ### cronjob
 - name: Create script file
@@ -112,5 +118,10 @@
     name: Run check_vnc.sh every minute
     minute: "1"
     job: "/opt/check_vnc.sh"
+
+- name: Config theme for xfce
+  become: true
+  shell: xfconf-query -c xsettings -p "/Net/ThemeName" -s "Greybird-dark"
+  ignore_errors: True
 
 ...

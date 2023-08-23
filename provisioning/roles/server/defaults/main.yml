@@ -1,3 +1,4 @@
+########################HTTP basic authentication########################
 username: alice
 password: bacon
 flag: "Top_Secret_Flag\n"
@@ -9,3 +10,8 @@ john_username: john
 john_password: John_the_ripper_is_the_best
 root_password: phantom
 jack_password: JackTheRipper
+
+########################MySQL########################
+mysql_root_password: your_root_password
+mysql_user: movie_user
+mysql_user_password: user_password
