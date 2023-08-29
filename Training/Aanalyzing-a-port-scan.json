@@ -1,5 +1,5 @@
 {
-  "title" : "Uploaded lab3-analyzing-a-port-scan",
+  "title" : "Analyzing a port scan",
   "description" : "Learn and practice with some scan tools.",
   "prerequisites" : [ ],
   "outcomes" : [ ],
@@ -37,7 +37,7 @@
     "answer" : "192.168.20.5",
     "answer_variable_name" : null,
     "content" : "Check connection to server and what is IP of server?",
-    "solution" : "`ping server`",
+    "solution" : "192.168.20.5",
     "solution_penalized" : true,
     "hints" : [ {
       "title" : "Hint",
@@ -62,7 +62,7 @@
     "answer" : "5",
     "answer_variable_name" : null,
     "content" : "Check Nmap tool and try with some example command :\n1. `nmap`\n\n2. `nmap -v -A scanme.nmap.org`\n\nHow many ports opening on scanme.nmap.org?\n",
-    "solution" : "`nmap -v -A scanme.nmap.org`",
+    "solution" : "5",
     "solution_penalized" : true,
     "hints" : [ {
       "title" : "Hint",
@@ -87,7 +87,7 @@
     "answer" : "4",
     "answer_variable_name" : null,
     "content" : "Let's try scan `server`, how many ports opening on server?",
-    "solution" : "`nmap -T4 -A server`",
+    "solution" : "4",
     "solution_penalized" : true,
     "hints" : [ {
       "title" : "Hint",
@@ -112,7 +112,7 @@
     "answer" : "http",
     "answer_variable_name" : null,
     "content" : "Try to analyze port 80. Which service is active on this port?",
-    "solution" : "`nmap -T4 -A -p 80 server`",
+    "solution" : "http",
     "solution_penalized" : true,
     "hints" : [ {
       "title" : "Hint",
@@ -134,10 +134,10 @@
     "order" : 7,
     "estimated_duration" : 10,
     "minimal_possible_solve_time" : null,
-    "answer" : "1",
+    "answer" : "2",
     "answer_variable_name" : null,
     "content" : "Still on port 80, how many files or directories is disallowed by robots.txt file?",
-    "solution" : "`nmap -T4 -A -p 80 server`",
+    "solution" : "2",
     "solution_penalized" : true,
     "hints" : [ {
       "title" : "Hint",
@@ -162,7 +162,7 @@
     "answer" : "Nmap_1s_gr34t_sc4n_t00l",
     "answer_variable_name" : null,
     "content" : "What is the http-title on server?",
-    "solution" : "`nmap -T4 -A -p 80 server`",
+    "solution" : "Nmap_1s_gr34t_sc4n_t00l",
     "solution_penalized" : true,
     "hints" : [ {
       "title" : "Hint",
